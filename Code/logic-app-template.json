@@ -45,7 +45,7 @@
                     },
                     "method": "post",
                     "body": {
-                        "To": "Arvindrhce12@gmail.com",
+                        "To": "arvi.exe@gmail.com",
                         "Subject": "File Added in Ondrive",
                         "Body": "<p class=\"editor-paragraph\">Hi File has been added on onedrive</p>",
                         "Importance": "Normal"
