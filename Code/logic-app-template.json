@@ -1,0 +1,81 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "contentVersion": "1.0.0.0",
+        "triggers": {
+            "When_a_file_is_created": {
+                "recurrence": {
+                    "interval": 3,
+                    "frequency": "Minute"
+                },
+                "evaluatedRecurrence": {
+                    "interval": 3,
+                    "frequency": "Minute"
+                },
+                "metadata": {
+                    "6e202211-2856-4d17-9ded-5beb8b8626b0": "/"
+                },
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['onedrive']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/datasets/default/triggers/onnewfilev2",
+                    "queries": {
+                        "folderId": "6e202211-2856-4d17-9ded-5beb8b8626b0",
+                        "includeSubfolders": true,
+                        "inferContentType": true,
+                        "simulate": false
+                    }
+                }
+            }
+        },
+        "actions": {
+            "Send_an_email_(V2)": {
+                "runAfter": {},
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['outlook']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "body": {
+                        "To": "Arvindrhce12@gmail.com",
+                        "Subject": "File Added in Ondrive",
+                        "Body": "<p class=\"editor-paragraph\">Hi File has been added on onedrive</p>",
+                        "Importance": "Normal"
+                    },
+                    "path": "/v2/Mail"
+                }
+            }
+        },
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "type": "Object",
+                "defaultValue": {}
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "onedrive": {
+                    "id": "/subscriptions/96cb683f-4550-464a-8fcf-a7054553e9e6/providers/Microsoft.Web/locations/northcentralus/managedApis/onedrive",
+                    "connectionId": "/subscriptions/96cb683f-4550-464a-8fcf-a7054553e9e6/resourceGroups/EIS_DEVTEST-INT-EAST-SANDBOX-RG/providers/Microsoft.Web/connections/onedrive-1",
+                    "connectionName": "onedrive-1"
+                },
+                "outlook": {
+                    "id": "/subscriptions/96cb683f-4550-464a-8fcf-a7054553e9e6/providers/Microsoft.Web/locations/northcentralus/managedApis/outlook",
+                    "connectionId": "/subscriptions/96cb683f-4550-464a-8fcf-a7054553e9e6/resourceGroups/EIS_DEVTEST-INT-EAST-SANDBOX-RG/providers/Microsoft.Web/connections/outlook",
+                    "connectionName": "outlook"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+name: Deploy Logic App
+
+on:
+  push:
+    branches:
+      - main   # Trigger deployment on push to the main branch
+  workflow_dispatch: # Allow manual trigger from GitHub Actions
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy Logic App using ARM template
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.30.0
+        inlineScript: |
+          az group create --name EIS_DEVTEST-INT-EAST-SANDBOX-RG --location 'North Central US' 
+          az deployment group create \
+            --resource-group EIS_DEVTEST-INT-EAST-SANDBOX-RG \
+            --template-file ./Code/logic-app-template.json \
+            --parameters logicAppName=Test location='North Central US' --mode Incremental
