@@ -23,7 +23,8 @@ jobs:
       with:
         azcliversion: 2.30.0
         inlineScript: |
-          az deployment group create \
-            --resource-group EIS_DEVTEST-INT-EAST-SANDBOX-RG \
-            --template-file ./Code/logic-app-template.json \
-            --parameters logicAppName=Test location='North Central US' --mode Incremental
+          az extension add --name logic
+          az logic workflow create --resource-group "EIS_DEVTEST-INT-EAST-SANDBOX-RG" \
+          --location "North Central US" --name "Test" \
+          --definition "./Code/logic-app-template.json" \
+          --tags "testTag1=testTagValue1"
