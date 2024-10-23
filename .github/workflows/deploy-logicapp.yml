@@ -23,7 +23,6 @@ jobs:
       with:
         azcliversion: 2.30.0
         inlineScript: |
-          az group create --name EIS_DEVTEST-INT-EAST-SANDBOX-RG --location 'North Central US' 
           az deployment group create \
             --resource-group EIS_DEVTEST-INT-EAST-SANDBOX-RG \
             --template-file ./Code/logic-app-template.json \
