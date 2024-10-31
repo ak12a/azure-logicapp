@@ -7,24 +7,47 @@ on:
   workflow_dispatch: # Allow manual trigger from GitHub Actions
 
 jobs:
-  deploy:
+  # deploy_consumption:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout the repository
+  #     uses: actions/checkout@v2
+
+  #   - name: Azure Login
+  #     uses: azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+  #   - name: Deploy Logic  App using ARM template
+  #     uses: azure/CLI@v1
+  #     with:
+  #       azcliversion: 2.30.0
+  #       inlineScript: |
+  #         az extension add --name logic
+  #         az logic workflow create --resource-group "EIS_DEVTEST-INT-EAST-SANDBOX-RG" \
+  #         --location "North Central US" --name "Test" \
+  #         --definition "./Code/logic-app-template.json" \
+  #         --tags "testTag1=testTagValue1"
+
+  deploy_standard:
+    name: Deploy Logic App Standard
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout the repository
-      uses: actions/checkout@v2
+      - name: Checkout the repository
+        uses: actions/checkout@v2
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Deploy Logic App using ARM template
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.30.0
-        inlineScript: |
-          az extension add --name logic
-          az logic workflow create --resource-group "EIS_DEVTEST-INT-EAST-SANDBOX-RG" \
-          --location "North Central US" --name "Test" \
-          --definition "./Code/logic-app-template.json" \
-          --tags "testTag1=testTagValue1"
+      - name: Deploy Logic App Standard using ARM template
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az extension add --name logic
+            az logic workflow create --resource-group "EIS_DEVTEST-INT-EAST-SANDBOX-RG" \
+              --location "Central US" --name "xentest001" \
+              --definition "./standard/template.json" \
+              --tags "environment=standard"
