@@ -48,6 +48,6 @@ jobs:
           inlineScript: |
             az extension add --name logic
             az logic workflow update --resource-group "EIS_DEVTEST-INT-EAST-SANDBOX-RG" \
-              --location "Central US" --name "xentest001" \
+              --location "CentralUS" --name "xentest001" \
               --definition "./standard/template.json" \
               --tags "environment=standard"
